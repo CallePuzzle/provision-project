@@ -73,3 +73,11 @@ variable "squash_merge_commit_message" {
   type        = string
   default     = "COMMIT_MESSAGES"
 }
+
+/*
+ * Cloudflare
+ */
+variable "cloudflare_zone_id" {
+  description = "The Cloudflare Zone ID"
+  type        = string
+}
