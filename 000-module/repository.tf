@@ -13,3 +13,9 @@ resource "github_repository" "this" {
   squash_merge_commit_title   = var.squash_merge_commit_title
   squash_merge_commit_message = var.squash_merge_commit_message
 }
+
+resource "github_actions_secret" "deploy_worker" {
+  repository       = github_repository.this.name
+  secret_name      = "CLOUDFLARE_API_TOKEN"
+  plaintext_value  = cloudflare_api_token.deploy_worker.value
+}
