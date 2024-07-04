@@ -74,10 +74,23 @@ variable "squash_merge_commit_message" {
   default     = "COMMIT_MESSAGES"
 }
 
+variable "is_template" {
+  description = "Whether the repository is a template"
+  type        = bool
+  default     = false
+}
+
+variable "is_svelte_app" {
+  description = "Whether the repository is a Svelte app"
+  type        = bool
+  default     = true
+}
+
 /*
  * Cloudflare
  */
 variable "cloudflare_zone_id" {
   description = "The Cloudflare Zone ID"
   type        = string
+  default     = null
 }

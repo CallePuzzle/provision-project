@@ -4,7 +4,7 @@ terraform {
     organization = "provision-project"
 
     workspaces {
-      name = "jilgue-blog"
+      name = "svelte-cloudflare-template"
     }
   }
 }
@@ -12,8 +12,8 @@ terraform {
 module "this" {
   source = "../000-module"
 
-  name        = "blog"
-  description = "Blog for dev.callepuzzle.com"
+  name        = "svelte-cloudflare-template"
+  description = "Svelte Cloudflare Template"
 
-  cloudflare_zone_id = "d9dfcd07cb412c204a20b78e5bc06c37"
+  is_template = true
 }
