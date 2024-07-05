@@ -89,12 +89,6 @@ variable "is_svelte_app" {
 /*
  * Cloudflare
  */
-variable "cloudflare_zone_id" {
-  description = "The Cloudflare Zone ID"
-  type        = string
-  default     = null
-}
-
 variable "cloudflare_account_id" {
   description = "The Cloudflare Account ID"
   type        = string
