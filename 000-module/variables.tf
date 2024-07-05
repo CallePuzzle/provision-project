@@ -94,3 +94,9 @@ variable "cloudflare_zone_id" {
   type        = string
   default     = null
 }
+
+variable "cloudflare_account_id" {
+  description = "The Cloudflare Account ID"
+  type        = string
+  default     = null
+}

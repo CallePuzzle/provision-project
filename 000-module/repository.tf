@@ -24,10 +24,37 @@ resource "github_repository" "this" {
   }
 }
 
+resource "github_repository_file" "wrangler_toml" {
+  repository = github_repository.this.name
+  branch     = "main"
+  file       = "wrangler.toml"
+  content = templatefile("${path.module}/files/wrangler.toml.tftpl", {
+    name                  = github_repository.this.name
+    cloudflare_account_id = var.cloudflare_account_id
+  })
+  commit_message      = "Managed by Terraform"
+  commit_author       = "Terraform User"
+  commit_email        = "terraform@example.com"
+  overwrite_on_create = true
+}
+
 resource "github_actions_secret" "deploy_worker" {
   count = var.is_template ? 0 : 1
 
   repository      = github_repository.this.name
   secret_name     = "CLOUDFLARE_API_TOKEN"
   plaintext_value = cloudflare_api_token.deploy_worker[0].value
+}
+
+resource "github_repository_file" "workflow_deploy" {
+  repository = github_repository.this.name
+  branch     = "main"
+  file       = ".github/workflows/deploy.yaml"
+  content = file("${path.module}/files/deploy.yaml")
+  commit_message      = "Managed by Terraform"
+  commit_author       = "Terraform User"
+  commit_email        = "terraform@example.com"
+  overwrite_on_create = true
+
+  depends_on = [ github_repository_file.wrangler_toml, github_actions_secret.deploy_worker ]
 }
