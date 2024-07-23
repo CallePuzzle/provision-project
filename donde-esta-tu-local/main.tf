@@ -4,7 +4,7 @@ terraform {
     organization = "provision-project"
 
     workspaces {
-      name = "podimo-share-listen-log"
+      name = "donde-esta-tu-local"
     }
   }
 }
@@ -12,8 +12,8 @@ terraform {
 module "this" {
   source = "../000-module"
 
-  name        = "podimo-share-listen-log"
-  description = "Podimo Share Listen Log allows users to effortlessly share their podcast listening history with friends"
+  name        = "donde-esta-tu-local"
+  description = "Aplicación para saber donde están las peñas de tu pueblo"
 
   cloudflare_account_id = "173bf7921f79923475ce95a48b845583"
 }

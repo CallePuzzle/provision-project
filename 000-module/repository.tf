@@ -47,14 +47,14 @@ resource "github_actions_secret" "deploy_worker" {
 }
 
 resource "github_repository_file" "workflow_deploy" {
-  repository = github_repository.this.name
-  branch     = "main"
-  file       = ".github/workflows/deploy.yaml"
-  content = file("${path.module}/files/deploy.yaml")
+  repository          = github_repository.this.name
+  branch              = "main"
+  file                = ".github/workflows/deploy.yaml"
+  content             = file("${path.module}/files/deploy.yaml")
   commit_message      = "Managed by Terraform"
   commit_author       = "Terraform User"
   commit_email        = "terraform@example.com"
   overwrite_on_create = true
 
-  depends_on = [ github_repository_file.wrangler_toml, github_actions_secret.deploy_worker ]
+  depends_on = [github_repository_file.wrangler_toml, github_actions_secret.deploy_worker]
 }
