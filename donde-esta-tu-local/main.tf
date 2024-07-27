@@ -20,6 +20,6 @@ module "this" {
 }
 
 output "mongo_uri" {
-  value = module.this.mongo_uri
+  value     = module.this.mongo_uri
   sensitive = true
 }

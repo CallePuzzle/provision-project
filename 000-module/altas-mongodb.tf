@@ -1,12 +1,12 @@
 resource "mongodbatlas_project" "this" {
-  count = var.altas_org_id != null ? 1 : 0
+  count = var.enable_mongodbatlas ? 1 : 0
 
   name   = var.name
   org_id = var.altas_org_id
 }
 
 resource "mongodbatlas_cluster" "this" {
-  count = var.altas_org_id != null ? 1 : 0
+  count = var.enable_mongodbatlas ? 1 : 0
 
   project_id = mongodbatlas_project.this[0].id
   name       = "${var.name}-mongodb"
@@ -18,14 +18,14 @@ resource "mongodbatlas_cluster" "this" {
 }
 
 resource "random_password" "this" {
-  count = var.altas_org_id != null ? 1 : 0
+  count = var.enable_mongodbatlas ? 1 : 0
 
   length  = 16
   special = false
 }
 
 resource "mongodbatlas_database_user" "this" {
-  count = var.altas_org_id != null ? 1 : 0
+  count = var.enable_mongodbatlas ? 1 : 0
 
   project_id         = mongodbatlas_project.this[0].id
   username           = var.name
@@ -44,6 +44,8 @@ resource "mongodbatlas_database_user" "this" {
 }
 
 resource "mongodbatlas_project_ip_access_list" "this" {
+  count = var.enable_mongodbatlas ? 1 : 0
+
   project_id = mongodbatlas_project.this[0].id
   cidr_block = "0.0.0.0/0"
   comment    = var.name

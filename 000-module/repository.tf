@@ -47,11 +47,11 @@ resource "github_actions_secret" "deploy_worker" {
 }
 
 locals {
-  mongo_uri = replace(mongodbatlas_cluster.this[0].connection_strings[0].standard_srv, "mongodb+srv://", "mongodb+srv://${var.name}:${random_password.this[0].result}@")
+  mongo_uri = var.enable_mongodbatlas ? replace(mongodbatlas_cluster.this[0].connection_strings[0].standard_srv, "mongodb+srv://", "mongodb+srv://${var.name}:${random_password.this[0].result}@") : null
 }
 
 resource "github_actions_secret" "mongo_uri" {
-  count = var.altas_org_id != null ? 1 : 0
+  count = var.enable_mongodbatlas ? 1 : 0
 
   repository      = github_repository.this.name
   secret_name     = "MONGO_URI"

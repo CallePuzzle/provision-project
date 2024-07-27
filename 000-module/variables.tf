@@ -98,6 +98,12 @@ variable "cloudflare_account_id" {
 /*
  * Atlas MongoDB
  */
+variable "enable_mongodbatlas" {
+  description = "Whether to enable the Atlas MongoDB module"
+  type        = bool
+  default     = false
+}
+
 variable "altas_org_id" {
   description = "The Atlas MongoDB Organization ID"
   type        = string
