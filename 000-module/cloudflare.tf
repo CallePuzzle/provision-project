@@ -45,3 +45,10 @@ resource "cloudflare_api_token" "deploy_worker" {
     }
   }
 }
+
+resource "cloudflare_d1_database" "this" {
+  count = var.enable_d1_database ? 1 : 0
+
+  account_id = var.cloudflare_account_id
+  name       = var.name
+}

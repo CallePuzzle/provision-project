@@ -31,6 +31,8 @@ resource "github_repository_file" "wrangler_toml" {
   content = templatefile("${path.module}/files/wrangler.toml.tftpl", {
     name                  = github_repository.this.name
     cloudflare_account_id = var.cloudflare_account_id
+    d1_database           = var.enable_d1_database
+    d1_database_id        = var.enable_d1_database ? cloudflare_d1_database.this[0].id : null
   })
   commit_message      = "Managed by Terraform"
   commit_author       = "Terraform User"
