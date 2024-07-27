@@ -46,6 +46,18 @@ resource "github_actions_secret" "deploy_worker" {
   plaintext_value = cloudflare_api_token.deploy_worker[0].value
 }
 
+locals {
+  mongo_uri = replace(mongodbatlas_cluster.this[0].connection_strings[0].standard_srv, "mongodb+srv://", "mongodb+srv://${var.name}:${random_password.this[0].result}@")
+}
+
+resource "github_actions_secret" "mongo_uri" {
+  count = var.altas_org_id != null ? 1 : 0
+
+  repository      = github_repository.this.name
+  secret_name     = "MONGO_URI"
+  plaintext_value = local.mongo_uri
+}
+
 resource "github_repository_file" "workflow_deploy" {
   repository          = github_repository.this.name
   branch              = "main"

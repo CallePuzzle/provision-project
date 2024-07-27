@@ -94,3 +94,12 @@ variable "cloudflare_account_id" {
   type        = string
   default     = null
 }
+
+/*
+ * Atlas MongoDB
+ */
+variable "altas_org_id" {
+  description = "The Atlas MongoDB Organization ID"
+  type        = string
+  default     = null
+}
