@@ -61,10 +61,13 @@ resource "github_actions_secret" "mongo_uri" {
 }
 
 resource "github_repository_file" "workflow_deploy" {
-  repository          = github_repository.this.name
-  branch              = "main"
-  file                = ".github/workflows/deploy.yaml"
-  content             = file("${path.module}/files/deploy.yaml")
+  repository = github_repository.this.name
+  branch     = "main"
+  file       = ".github/workflows/deploy.yaml"
+  content = templatefile("${path.module}/files/deploy.yaml.tftpl", {
+    wrangler_version   = "3.63.1"
+    enable_d1_database = var.enable_d1_database
+  })
   commit_message      = "Managed by Terraform"
   commit_author       = "Terraform User"
   commit_email        = "terraform@example.com"

@@ -20,6 +20,7 @@ resource "cloudflare_api_token" "deploy_worker" {
       data.cloudflare_api_token_permission_groups.all[0].account["Workers Tail Read"],
       data.cloudflare_api_token_permission_groups.all[0].account["Workers R2 Storage Write"],
       data.cloudflare_api_token_permission_groups.all[0].account["Pages Write"],
+      data.cloudflare_api_token_permission_groups.all[0].account["D1 Write"],
     ]
     resources = {
       "com.cloudflare.api.account.*" = "*"
