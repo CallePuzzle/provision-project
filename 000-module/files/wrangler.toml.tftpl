@@ -8,3 +8,10 @@ build.command = "npm run build"
 
 compatibility_date = "2021-11-12"
 workers_dev = true
+
+%{ if d1_database }
+[[d1_databases]]
+binding = "DB"
+database_name = "${name}"
+database_id = "${d1_database_id}"
+%{ endif }

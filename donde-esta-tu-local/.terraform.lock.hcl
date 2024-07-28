@@ -29,6 +29,7 @@ provider "registry.terraform.io/hashicorp/random" {
   version = "3.6.2"
   hashes = [
     "h1:VavG5unYCa3SYISMKF9pzc3718M0bhPlcbUZZGl7wuo=",
+    "h1:wmG0QFjQ2OfyPy6BB7mQ57WtoZZGGV07uAPQeDmIrAE=",
     "zh:0ef01a4f81147b32c1bea3429974d4d104bbc4be2ba3cfa667031a8183ef88ec",
     "zh:1bcd2d8161e89e39886119965ef0f37fcce2da9c1aca34263dd3002ba05fcb53",
     "zh:37c75d15e9514556a5f4ed02e1548aaa95c0ecd6ff9af1119ac905144c70c114",
@@ -73,6 +74,7 @@ provider "registry.terraform.io/mongodb/mongodbatlas" {
   constraints = "1.17.4"
   hashes = [
     "h1:PEjZfKYVF4e44tEdcKHAMY6RQO0WCb04Xj0w3+eyElc=",
+    "h1:qEqGKzAovP7/FxktGUfjmKzL+UAZ/Psp3gZ1poEI5Hs=",
     "zh:0323476431e7fde48f7c732b707f0b5980fe8e36dfe5a282a92365313320253c",
     "zh:1a10ec224c13b3720293f179f51cf11fa58ed89e74fb9f7e548ed98bbd368340",
     "zh:3326416d2995947c2e96c118953f9876e3cdfb6f24330f491f818d7d249d1912",

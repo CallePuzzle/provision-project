@@ -20,6 +20,7 @@ resource "cloudflare_api_token" "deploy_worker" {
       data.cloudflare_api_token_permission_groups.all[0].account["Workers Tail Read"],
       data.cloudflare_api_token_permission_groups.all[0].account["Workers R2 Storage Write"],
       data.cloudflare_api_token_permission_groups.all[0].account["Pages Write"],
+      data.cloudflare_api_token_permission_groups.all[0].account["D1 Write"],
     ]
     resources = {
       "com.cloudflare.api.account.*" = "*"
@@ -44,4 +45,11 @@ resource "cloudflare_api_token" "deploy_worker" {
       "com.cloudflare.api.user.${data.cloudflare_user.me[0].id}" = "*",
     }
   }
+}
+
+resource "cloudflare_d1_database" "this" {
+  count = var.enable_d1_database ? 1 : 0
+
+  account_id = var.cloudflare_account_id
+  name       = var.name
 }
