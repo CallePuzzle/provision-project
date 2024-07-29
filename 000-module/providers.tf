@@ -12,5 +12,9 @@ terraform {
       source  = "mongodb/mongodbatlas"
       version = "1.17.4"
     }
+    auth0 = {
+      source  = "auth0/auth0"
+      version = "1.4.0"
+    }
   }
 }
