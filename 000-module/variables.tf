@@ -3,6 +3,12 @@ variable "name" {
   type        = string
 }
 
+variable "app_url" {
+  description = "The URL of the application"
+  type        = string
+  default     = null
+}
+
 variable "description" {
   description = "The description of the repository"
   type        = string
@@ -114,4 +120,13 @@ variable "altas_org_id" {
   description = "The Atlas MongoDB Organization ID"
   type        = string
   default     = null
+}
+
+/*
+ * Auth0
+ */
+variable "enable_auth0" {
+  description = "Whether to enable the Auth0 module"
+  type        = bool
+  default     = false
 }

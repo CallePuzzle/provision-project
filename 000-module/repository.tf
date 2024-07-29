@@ -60,13 +60,37 @@ resource "github_actions_secret" "mongo_uri" {
   plaintext_value = local.mongo_uri
 }
 
+resource "github_actions_secret" "auth0_client_id" {
+  count = var.enable_auth0 ? 1 : 0
+
+  repository      = github_repository.this.name
+  secret_name     = "AUTH0_CLIENT_ID"
+  plaintext_value = auth0_client.this[0].client_id
+}
+
+resource "github_actions_secret" "auth0_client_secret" {
+  count = var.enable_auth0 ? 1 : 0
+
+  repository      = github_repository.this.name
+  secret_name     = "AUTH0_CLIENT_SECRET"
+  plaintext_value = auth0_client_credentials.this[0].client_secret
+}
+
+locals {
+  env_vars_d1    = var.enable_d1_database ? ["DATABASE_URL"] : []
+  env_vars_auth0 = var.enable_auth0 ? ["AUTH0_DOMAIN", "AUTH0_CLIENT_ID", "AUTH0_CLIENT_SECRET"] : []
+}
+
 resource "github_repository_file" "workflow_deploy" {
   repository = github_repository.this.name
   branch     = "main"
   file       = ".github/workflows/deploy.yaml"
   content = templatefile("${path.module}/files/deploy.yaml.tftpl", {
     wrangler_version   = "3.63.1"
+    app_url            = var.app_url
     enable_d1_database = var.enable_d1_database
+    enable_auth0       = var.enable_auth0
+    variables_names    = join(",", concat(local.env_vars_d1, local.env_vars_auth0))
   })
   commit_message      = "Managed by Terraform"
   commit_author       = "Terraform User"
