@@ -13,6 +13,7 @@ resource "github_repository" "this" {
   allow_rebase_merge          = var.allow_rebase_merge
   squash_merge_commit_title   = var.squash_merge_commit_title
   squash_merge_commit_message = var.squash_merge_commit_message
+  delete_branch_on_merge      = var.delete_branch_on_merge
 
   dynamic "template" {
     for_each = var.is_svelte_app && !var.is_template ? [1] : []
@@ -76,9 +77,18 @@ resource "github_actions_secret" "auth0_client_secret" {
   plaintext_value = auth0_client_credentials.this[0].client_secret
 }
 
+resource "github_actions_secret" "extra" {
+  for_each = var.extra_secrets
+
+  repository      = github_repository.this.name
+  secret_name     = each.key
+  plaintext_value = each.value
+}
+
 locals {
-  env_vars_d1    = var.enable_d1_database ? ["DATABASE_URL"] : []
-  env_vars_auth0 = var.enable_auth0 ? ["AUTH0_DOMAIN", "AUTH0_CLIENT_ID", "AUTH0_CLIENT_SECRET"] : []
+  env_vars_d1       = var.enable_d1_database ? ["DATABASE_URL"] : []
+  env_vars_auth0    = var.enable_auth0 ? ["AUTH0_DOMAIN", "AUTH0_CLIENT_ID", "AUTH0_CLIENT_SECRET"] : []
+  env_extra_secrets = keys(var.extra_secrets)
 }
 
 resource "github_repository_file" "workflow_deploy" {
@@ -90,7 +100,8 @@ resource "github_repository_file" "workflow_deploy" {
     app_url            = var.app_url
     enable_d1_database = var.enable_d1_database
     enable_auth0       = var.enable_auth0
-    variables_names    = join(",", concat(local.env_vars_d1, local.env_vars_auth0))
+    extra_secrets      = var.extra_secrets
+    variables_names    = join(",", concat(local.env_vars_d1, local.env_vars_auth0, local.env_extra_secrets))
   })
   commit_message      = "Managed by Terraform"
   commit_author       = "Terraform User"

@@ -14,6 +14,11 @@ env:
 %{ if enable_d1_database ~}
   DATABASE_URL: file:./dev.db
 %{ endif ~}
+%{ if length(extra_secrets) > 0 ~}
+%{for secret_name, secret_value in extra_secrets ~}
+  ${secret_name}: $${{ secrets.${secret_name} }}
+%{ endfor ~}
+%{ endif ~}
 
 jobs:
   deploy:
