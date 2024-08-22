@@ -1,13 +1,20 @@
+locals {
+  develop_urls = [
+    "http://localhost:8787",
+    "http://localhost:5173",
+  ]
+}
+
 resource "auth0_client" "this" {
   count = var.enable_auth0 ? 1 : 0
 
   name                = var.name
   description         = "Auth0 client for ${var.name}"
   app_type            = "regular_web"
-  callbacks           = ["http://localhost:8787/login/callback", "${var.app_url}/login/callback"]
-  allowed_origins     = ["http://localhost:8787", var.app_url]
-  allowed_logout_urls = ["http://localhost:8787/logout", "${var.app_url}/logout"]
-  web_origins         = ["http://localhost:8787", var.app_url]
+  callbacks           = concat(["${var.app_url}/login/callback"], [for url in local.develop_urls : "${url}/login/callback"])
+  allowed_origins     = concat([var.app_url], local.develop_urls)
+  allowed_logout_urls = concat(["${var.app_url}/logout"], [for url in local.develop_urls : "${url}/logout"])
+  web_origins         = concat([var.app_url], local.develop_urls)
   grant_types = [
     "authorization_code",
     "implicit",

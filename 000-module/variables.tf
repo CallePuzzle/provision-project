@@ -80,6 +80,12 @@ variable "squash_merge_commit_message" {
   default     = "COMMIT_MESSAGES"
 }
 
+variable "delete_branch_on_merge" {
+  description = "Whether to delete the branch on merge"
+  type        = bool
+  default     = true
+}
+
 variable "is_template" {
   description = "Whether the repository is a template"
   type        = bool
@@ -90,6 +96,13 @@ variable "is_svelte_app" {
   description = "Whether the repository is a Svelte app"
   type        = bool
   default     = true
+}
+
+variable "extra_secrets" {
+  description = ""
+  type        = map(string)
+  //sensitive = true TODO
+  default = {}
 }
 
 /*
