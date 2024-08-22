@@ -2,11 +2,11 @@ terraform {
   required_providers {
     github = {
       source  = "integrations/github"
-      version = "6.2.2"
+      version = "6.2.3"
     }
     cloudflare = {
       source  = "cloudflare/cloudflare"
-      version = "4.35.0"
+      version = "4.40.0"
     }
     auth0 = {
       source  = "auth0/auth0"
