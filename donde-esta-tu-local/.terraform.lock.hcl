@@ -5,6 +5,7 @@ provider "registry.terraform.io/auth0/auth0" {
   version     = "1.4.0"
   constraints = "1.4.0"
   hashes = [
+    "h1:DjPQ7/aV4svBaVAqzUh7xjc2R3dr/W4MSiXiIGwgYNA=",
     "h1:F/EBX23CYWNv0AEfe3gEGGluSboxzh6pcPIq7H9SVjk=",
     "zh:0426742a914c1d7e3f172965a663ac61f2745bbe6995e7c8feb5e506e155c570",
     "zh:30016161cda17c6c962683d7f0d0ed6839d14f300edd21fd0335f25964bcaa27",
@@ -20,6 +21,21 @@ provider "registry.terraform.io/auth0/auth0" {
     "zh:ca83a166c28296585a00cd674ea7ff3679a35d63fd572408755865b1657ab419",
     "zh:e1ebd360dbdfb394704b54a2d37e891d1a9f974db7d184dcc2edf84ec7dcf562",
     "zh:f93d77f2c2268e2d2728d81b89f590ee549695cd3d4ec9f58093d1a6a6f3c2d1",
+  ]
+}
+
+provider "registry.terraform.io/carlpett/sops" {
+  version     = "1.1.1"
+  constraints = "1.1.1"
+  hashes = [
+    "h1:hqyownSt8teS7g0+XDOxmAtuAHB5kDNQkW1voBhLmZU=",
+    "zh:175ec198e1b4d1cad1ae559ebe8cdf574617805010c22dfb8af93a2057ba8332",
+    "zh:2b550b2372f71408e7b47b099f314d981bbb82b263cb55248a36a9af8afd44a1",
+    "zh:684544ed3460c34585b090b5de1d4e0caf8eba8e6ba50ad0734cda818a6c86f0",
+    "zh:6ab656d3f3645b8158769f34c16820523a621b9e735c1b3233cecf010ac61dda",
+    "zh:6b1f0007569ea36903c9b2b1b114c3cec7c163d9b83946362c3e165e255f64e7",
+    "zh:7d562f2fc76c954f974f2745557059a4d33dacb8d46e9f1cf09323348dcf5ddc",
+    "zh:cc7e97d8b55ebd90a4c1424cf9cb930af76e98a11c6eeb07e51d648369859fa1",
   ]
 }
 

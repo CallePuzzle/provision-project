@@ -7,7 +7,20 @@ terraform {
       name = "donde-esta-tu-local"
     }
   }
+
+  required_providers {
+    sops = {
+      source  = "carlpett/sops"
+      version = "1.1.1"
+    }
+  }
 }
+
+data "sops_file" "extra_secrets" {
+  source_file = "extra-secrets.enc.json"
+  input_type  = "json"
+}
+
 
 module "this" {
   source = "../000-module"
@@ -22,6 +35,6 @@ module "this" {
   enable_auth0          = true
 
   extra_secrets = {
-    JWK = "{\"alg\": \"ES256\", \"crv\": \"P-256\", \"d\": \"ns9nQBcviqRYoBJHl-AF4eLzaYUNcvQR-4C4P4gYiqw\", \"ext\": true, \"key_ops\": [\"sign\"], \"kty\": \"EC\", \"x\": \"T0WQ9K9-YHGa3vKJrmNnc0WY_8XYBUpP7WfY67g9NSE\", \"y\": \"DB7Wrhu9BJezcKnrOIxcJMq1C2DQcAnbTb-0nFJH2yQ\"}"
+    JWK = data.sops_file.extra_secrets.data["JWK"]
   }
 }
