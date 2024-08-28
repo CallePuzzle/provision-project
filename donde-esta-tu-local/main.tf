@@ -21,7 +21,6 @@ data "sops_file" "extra_secrets" {
   input_type  = "json"
 }
 
-
 module "this" {
   source = "../000-module"
 
@@ -33,6 +32,15 @@ module "this" {
   cloudflare_account_id = "173bf7921f79923475ce95a48b845583"
   enable_d1_database    = true
   enable_auth0          = true
+
+  environments = {
+    staging = {
+      name = "-staging"
+    }
+    main = {
+        name = ""
+    }
+  }
 
   extra_secrets = {
     JWK = data.sops_file.extra_secrets.data["JWK"]

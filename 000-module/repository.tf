@@ -32,8 +32,8 @@ resource "github_repository_file" "wrangler_toml" {
   content = templatefile("${path.module}/files/wrangler.toml.tftpl", {
     name                  = github_repository.this.name
     cloudflare_account_id = var.cloudflare_account_id
-    d1_database           = var.enable_d1_database
-    d1_database_id        = var.enable_d1_database ? cloudflare_d1_database.this[0].id : null
+    enable_d1_database    = var.enable_d1_database
+    d1_databases          = var.enable_d1_database ? cloudflare_d1_database.this : null
   })
   commit_message      = "Managed by Terraform"
   commit_author       = "Terraform User"
@@ -47,18 +47,6 @@ resource "github_actions_secret" "deploy_worker" {
   repository      = github_repository.this.name
   secret_name     = "CLOUDFLARE_API_TOKEN"
   plaintext_value = cloudflare_api_token.deploy_worker[0].value
-}
-
-locals {
-  mongo_uri = var.enable_mongodbatlas ? replace(mongodbatlas_cluster.this[0].connection_strings[0].standard_srv, "mongodb+srv://", "mongodb+srv://${var.name}:${random_password.this[0].result}@") : null
-}
-
-resource "github_actions_secret" "mongo_uri" {
-  count = var.enable_mongodbatlas ? 1 : 0
-
-  repository      = github_repository.this.name
-  secret_name     = "MONGO_URI"
-  plaintext_value = local.mongo_uri
 }
 
 resource "github_actions_secret" "auth0_client_id" {

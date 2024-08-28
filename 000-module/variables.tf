@@ -105,6 +105,14 @@ variable "extra_secrets" {
   default = {}
 }
 
+variable "environments" {
+  description = "Map of environments, used to create several environments"
+  type        = map(object({
+    name = string
+  }))
+  default = null
+}
+
 /*
  * Cloudflare
  */

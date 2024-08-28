@@ -9,9 +9,18 @@ build.command = "npm run build"
 compatibility_date = "2024-03-20"
 compatibility_flags = ["nodejs_compat"]
 
-%{ if d1_database ~}
+%{ if enable_d1_database ~}
+%{ for environment, d1_database in d1_databases ~}
+%{ if environment == "main" ~}
 [[d1_databases]]
 binding = "DB"
-database_name = "${name}"
-database_id = "${d1_database_id}"
+database_name = "${d1_database.name}"
+database_id = "${d1_database.id}"
+%{ else ~}
+[[env.${environment}.d1_databases]]
+binding = "DB"
+database_name = "${d1_database.name}"
+database_id = "${d1_database.id}"
+%{ endif ~}
+%{ endfor ~}
 %{ endif ~}
