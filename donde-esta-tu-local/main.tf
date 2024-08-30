@@ -15,11 +15,11 @@ terraform {
     }
     github = {
       source  = "integrations/github"
-      version = "6.2.2"
+      version = "6.2.3"
     }
     cloudflare = {
       source  = "cloudflare/cloudflare"
-      version = "4.35.0"
+      version = "4.40.0"
     }
     auth0 = {
       source  = "auth0/auth0"
@@ -64,16 +64,15 @@ module "this" {
   enable_d1_database    = true
   enable_auth0          = true
 
-  environments = {
-    staging = {
-      name = "-staging"
-    }
-    main = {
-        name = ""
-    }
-  }
-
   extra_secrets = {
     JWK = data.sops_file.extra_secrets.data["JWK"]
+  }
+
+  providers = {
+    cloudflare         = cloudflare
+    cloudflare.staging = cloudflare
+    auth0              = auth0
+    auth0.staging      = auth0
+    github             = github
   }
 }

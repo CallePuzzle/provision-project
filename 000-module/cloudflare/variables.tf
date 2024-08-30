@@ -1,5 +1,5 @@
 variable "name" {
-    type = string
+  type = string
 }
 
 variable "cloudflare_account_id" {

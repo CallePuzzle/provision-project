@@ -1,0 +1,17 @@
+name = "${name}"
+account_id = "${cloudflare_account_id}"
+
+main = "./.cloudflare/worker.js"
+site.bucket = "./.cloudflare/public"
+
+build.command = "npm run build"
+
+compatibility_date = "2024-03-20"
+compatibility_flags = ["nodejs_compat"]
+
+%{ if d1_database_id != null ~}
+[[d1_databases]]
+binding = "DB"
+database_name = "${name}"
+database_id = "${d1_database_id}"
+%{ endif ~}

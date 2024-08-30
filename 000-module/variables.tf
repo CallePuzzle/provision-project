@@ -101,16 +101,13 @@ variable "is_svelte_app" {
 variable "extra_secrets" {
   description = ""
   type        = map(string)
-  //sensitive = true TODO
-  default = {}
+  default     = {}
 }
 
-variable "environments" {
-  description = "Map of environments, used to create several environments"
-  type        = map(object({
-    name = string
-  }))
-  default = null
+variable "enable_staging_environment" {
+  description = "Whether to enable the staging environment"
+  type        = bool
+  default     = false
 }
 
 /*
@@ -118,6 +115,12 @@ variable "environments" {
  */
 variable "cloudflare_account_id" {
   description = "The Cloudflare Account ID"
+  type        = string
+  default     = null
+}
+
+variable "staging_cloudflare_account_id" {
+  description = "The Cloudflare Account ID for the staging environment"
   type        = string
   default     = null
 }
