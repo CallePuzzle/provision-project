@@ -24,6 +24,6 @@ database_id = "${d1_database_id}"
 %{ if enable_staging_environment && staging_d1_database_id != null ~}
 [[env.staging.d1_databases]]
 binding = "DB"
-database_name = "${name}"-staging
+database_name = "${name}-staging"
 database_id = "${staging_d1_database_id}"
 %{ endif ~}

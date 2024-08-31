@@ -36,7 +36,7 @@ module "auth0_staging" {
   count  = var.enable_staging_environment && var.enable_auth0 ? 1 : 0
 
   name    = "${var.name}-staging"
-  app_url = var.app_url
+  app_url = var.staging_app_url
 
   providers = {
     auth0 = auth0.staging
@@ -71,7 +71,7 @@ module "deploy_staging" {
   count  = var.is_template ? 0 : var.enable_staging_environment ? 1 : 0
 
   repository                         = github_repository.this.name
-  app_url                            = var.app_url
+  app_url                            = var.staging_app_url
   enable_staging_environment         = var.enable_staging_environment
   is_staging                         = true
   cloudflare_account_id              = var.staging_cloudflare_account_id

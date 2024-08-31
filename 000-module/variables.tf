@@ -9,6 +9,12 @@ variable "app_url" {
   default     = null
 }
 
+variable "staging_app_url" {
+  description = "The URL of the application"
+  type        = string
+  default     = null
+}
+
 variable "description" {
   description = "The description of the repository"
   type        = string

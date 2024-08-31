@@ -60,10 +60,10 @@ moved {
 
 moved {
   from = module.this.module.deploy[0].github_repository_file.workflow_deploy
-  to = module.this.module.deploy[0].github_repository_file.workflow_deploy[0]
+  to   = module.this.module.deploy[0].github_repository_file.workflow_deploy[0]
 }
 
 moved {
   from = module.this.module.deploy[0].github_repository_file.wrangler_toml
-  to = module.this.module.deploy[0].github_repository_file.wrangler_toml[0]
+  to   = module.this.module.deploy[0].github_repository_file.wrangler_toml[0]
 }

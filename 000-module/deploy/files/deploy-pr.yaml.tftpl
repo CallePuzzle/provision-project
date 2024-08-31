@@ -1,14 +1,14 @@
-name: Deploy
+name: Deploy PR
 
 on:
-  push:
-    branches:
-      - main
+  pull_request:
+    types:
+      - opened
 
 env:
 %{ if enable_auth0 ~}
-  AUTH0_CLIENT_ID: $${{ secrets.AUTH0_CLIENT_ID }}
-  AUTH0_CLIENT_SECRET: $${{ secrets.AUTH0_CLIENT_SECRET }}
+  AUTH0_CLIENT_ID: $${{ secrets.AUTH0_CLIENT_ID_STAGING }}
+  AUTH0_CLIENT_SECRET: $${{ secrets.AUTH0_CLIENT_SECRET_STAGING }}
   AUTH0_REDIRECT_URI: ${app_url}/login/callback
 %{ endif ~}
 %{ if enable_d1_database ~}
@@ -42,7 +42,7 @@ jobs:
       - name: D1 Migrations Apply
         uses: cloudflare/wrangler-action@v3
         with:
-          apiToken: $${{ secrets.CLOUDFLARE_API_TOKEN }}
+          apiToken: $${{ secrets.CLOUDFLARE_API_TOKEN_STAGING }}
           wranglerVersion: ${wrangler_version}
           command: d1 migrations apply donde-esta-tu-local --remote
 %{ endif ~}
@@ -50,5 +50,5 @@ jobs:
       - name: Deploy
         uses: cloudflare/wrangler-action@v3
         with:
-          apiToken: $${{ secrets.CLOUDFLARE_API_TOKEN }}
+          apiToken: $${{ secrets.CLOUDFLARE_API_TOKEN_STAGING }}
           wranglerVersion: ${wrangler_version}
