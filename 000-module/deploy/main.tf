@@ -1,11 +1,15 @@
 resource "github_repository_file" "wrangler_toml" {
+  count      = var.is_staging ? 0 : 1
   repository = var.repository
   branch     = "main"
   file       = "wrangler.toml"
   content = templatefile("${path.module}/files/wrangler.toml.tftpl", {
-    name                  = var.repository
-    cloudflare_account_id = var.cloudflare_account_id
-    d1_database_id        = var.d1_database_id
+    name                          = var.repository
+    cloudflare_account_id         = var.cloudflare_account_id
+    staging_cloudflare_account_id = var.staging_cloudflare_account_id
+    d1_database_id                = var.d1_database_id
+    enable_staging_environment    = var.enable_staging_environment
+    staging_d1_database_id        = var.staging_d1_database_id
   })
   commit_message      = "Managed by Terraform"
   commit_author       = "Terraform User"
@@ -50,6 +54,7 @@ locals {
 }
 
 resource "github_repository_file" "workflow_deploy" {
+  count      = var.is_staging ? 0 : 1
   repository = var.repository
   branch     = "main"
   file       = ".github/workflows/deploy.yaml"
@@ -67,4 +72,25 @@ resource "github_repository_file" "workflow_deploy" {
   overwrite_on_create = true
 
   depends_on = [github_repository_file.wrangler_toml, github_actions_secret.deploy_worker]
+}
+
+resource "github_repository_file" "workflow_deploy_staging" {
+  count      = var.is_staging ? 1 : 0
+  repository = var.repository
+  branch     = "main"
+  file       = ".github/workflows/deploy.yaml"
+  content = templatefile("${path.module}/files/deploy.yaml.tftpl", {
+    wrangler_version   = "3.63.1"
+    app_url            = var.app_url
+    enable_d1_database = var.enable_d1_database
+    enable_auth0       = var.enable_auth0
+    extra_secrets      = var.extra_secrets
+    variables_names    = join(",", concat(local.env_vars_d1, local.env_vars_auth0, local.env_extra_secrets))
+  })
+  commit_message      = "Managed by Terraform"
+  commit_author       = "Terraform User"
+  commit_email        = "terraform@example.com"
+  overwrite_on_create = true
+
+  depends_on = [github_actions_secret.deploy_worker]
 }

@@ -9,8 +9,26 @@ variable "app_url" {
   default     = null
 }
 
+variable "enable_staging_environment" {
+  description = "Whether to enable the staging environment"
+  type        = bool
+  default     = false
+}
+
+variable "is_staging" {
+  description = "Whether this is the staging environment"
+  type        = bool
+  default     = false
+}
+
 variable "cloudflare_account_id" {
   description = "The Cloudflare Account ID"
+  type        = string
+  default     = null
+}
+
+variable "staging_cloudflare_account_id" {
+  description = "The Cloudflare Account ID for the staging environment"
   type        = string
   default     = null
 }
@@ -23,6 +41,12 @@ variable "enable_d1_database" {
 
 variable "d1_database_id" {
   description = "The D1 Database ID"
+  type        = string
+  default     = null
+}
+
+variable "staging_d1_database_id" {
+  description = "The D1 Database ID for the staging environment"
   type        = string
   default     = null
 }

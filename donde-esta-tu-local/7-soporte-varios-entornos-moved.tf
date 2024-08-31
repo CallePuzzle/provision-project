@@ -47,3 +47,23 @@ moved {
   from = module.this.github_repository_file.wrangler_toml
   to   = module.this.module.deploy[0].github_repository_file.wrangler_toml
 }
+
+//moved {
+//  from = module.this.module.auth0[0]
+//  to = module.this.module.auth0_staging[0]
+//}
+//
+//moved {
+//  from = module.this.module.cloudflare[0]
+//  to = module.this.module.cloudflare_staging[0]
+//}
+
+moved {
+  from = module.this.module.deploy[0].github_repository_file.workflow_deploy
+  to = module.this.module.deploy[0].github_repository_file.workflow_deploy[0]
+}
+
+moved {
+  from = module.this.module.deploy[0].github_repository_file.wrangler_toml
+  to = module.this.module.deploy[0].github_repository_file.wrangler_toml[0]
+}
