@@ -1,10 +1,5 @@
 name = "${name}"
 account_id = "${cloudflare_account_id}"
-%{ if enable_staging_environment ~}
-[env.staging]
-name = "${name}-staging"
-account_id = "${staging_cloudflare_account_id}"
-%{ endif ~}
 
 main = "./.cloudflare/worker.js"
 site.bucket = "./.cloudflare/public"
@@ -19,6 +14,12 @@ compatibility_flags = ["nodejs_compat"]
 binding = "DB"
 database_name = "${name}"
 database_id = "${d1_database_id}"
+%{ endif ~}
+
+%{ if enable_staging_environment ~}
+[env.staging]
+name = "${name}-staging"
+account_id = "${staging_cloudflare_account_id}"
 %{ endif ~}
 
 %{ if enable_staging_environment && staging_d1_database_id != null ~}
