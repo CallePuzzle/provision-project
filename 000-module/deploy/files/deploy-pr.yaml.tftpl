@@ -2,11 +2,12 @@ name: Deploy PR
 
 on:
   pull_request:
-    types:
-      - opened
+    branches:
+      - main
 
 env:
 %{ if enable_auth0 ~}
+  AUTH0_DOMAIN: $${{ secrets.AUTH0_DOMAIN_STAGING }}
   AUTH0_CLIENT_ID: $${{ secrets.AUTH0_CLIENT_ID_STAGING }}
   AUTH0_CLIENT_SECRET: $${{ secrets.AUTH0_CLIENT_SECRET_STAGING }}
   AUTH0_REDIRECT_URI: ${app_url}/login/callback

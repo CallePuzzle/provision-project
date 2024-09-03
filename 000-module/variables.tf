@@ -160,3 +160,15 @@ variable "enable_auth0" {
   type        = bool
   default     = false
 }
+
+variable "auth0_domain" {
+  description = "The Auth0 domain"
+  type        = string
+  default     = null
+}
+
+variable "staging_auth0_domain" {
+  description = "The Auth0 domain for the staging environment"
+  type        = string
+  default     = null
+}

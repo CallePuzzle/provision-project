@@ -27,6 +27,14 @@ resource "github_actions_secret" "deploy_worker" {
   plaintext_value = var.deploy_worker_cloudflare_api_token
 }
 
+resource "github_actions_secret" "auth0_domain" {
+  count = var.enable_auth0 ? 1 : 0
+
+  repository      = var.repository
+  secret_name     = "AUTH0_DOMAIN${local._secret_names_suffix}"
+  plaintext_value = var.auth0_domain
+}
+
 resource "github_actions_secret" "auth0_client_id" {
   count = var.enable_auth0 ? 1 : 0
 
@@ -44,7 +52,7 @@ resource "github_actions_secret" "auth0_client_secret" {
 }
 
 resource "github_actions_secret" "extra" {
-  for_each = var.extra_secrets
+  for_each = var.is_staging ? {} : var.extra_secrets
 
   repository      = var.repository
   secret_name     = each.key
@@ -52,8 +60,8 @@ resource "github_actions_secret" "extra" {
 }
 
 locals {
-  env_vars_d1       = var.enable_d1_database ? ["DATABASE_URL${local._secret_names_suffix}"] : []
-  env_vars_auth0    = var.enable_auth0 ? ["AUTH0_CLIENT_ID${local._secret_names_suffix}", "AUTH0_CLIENT_SECRET${local._secret_names_suffix}"] : []
+  env_vars_d1       = var.enable_d1_database ? ["DATABASE_URL"] : []
+  env_vars_auth0    = var.enable_auth0 ? ["AUTH0_DOMAIN", "AUTH0_CLIENT_ID", "AUTH0_CLIENT_SECRET"] : []
   env_extra_secrets = keys(var.extra_secrets)
 }
 

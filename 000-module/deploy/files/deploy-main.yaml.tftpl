@@ -7,6 +7,7 @@ on:
 
 env:
 %{ if enable_auth0 ~}
+  AUTH0_DOMAIN: $${{ secrets.AUTH0_DOMAIN }}
   AUTH0_CLIENT_ID: $${{ secrets.AUTH0_CLIENT_ID }}
   AUTH0_CLIENT_SECRET: $${{ secrets.AUTH0_CLIENT_SECRET }}
   AUTH0_REDIRECT_URI: ${app_url}/login/callback

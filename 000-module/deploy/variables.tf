@@ -62,6 +62,12 @@ variable "deploy_worker_cloudflare_api_token" {
   type        = string
 }
 
+variable "auth0_domain" {
+  description = "The Auth0 domain"
+  type        = string
+  default     = null
+}
+
 variable "auth0_client_id" {
   description = "The Auth0 Client ID"
   type        = string
