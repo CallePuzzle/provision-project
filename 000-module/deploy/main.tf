@@ -60,6 +60,7 @@ resource "github_actions_secret" "extra" {
 }
 
 locals {
+  wrangler_version  = "3.74.0"
   env_vars_d1       = var.enable_d1_database ? ["DATABASE_URL"] : []
   env_vars_auth0    = var.enable_auth0 ? ["AUTH0_DOMAIN", "AUTH0_CLIENT_ID", "AUTH0_CLIENT_SECRET"] : []
   env_extra_secrets = keys(var.extra_secrets)
@@ -71,12 +72,12 @@ resource "github_repository_file" "workflow_deploy" {
   branch     = "main"
   file       = ".github/workflows/deploy-main.yaml"
   content = templatefile("${path.module}/files/deploy-main.yaml.tftpl", {
-    wrangler_version   = "3.63.1"
-    app_url            = var.app_url
-    enable_d1_database = var.enable_d1_database
-    enable_auth0       = var.enable_auth0
-    extra_secrets      = var.extra_secrets
-    variables_names    = join(",", concat(local.env_vars_d1, local.env_vars_auth0, local.env_extra_secrets))
+    wrangler_version    = local.wrangler_version
+    app_url             = var.app_url
+    enable_d1_database  = var.enable_d1_database
+    enable_auth0        = var.enable_auth0
+    extra_secrets_names = local.env_extra_secrets
+    variables_names     = join(",", concat(local.env_vars_d1, local.env_vars_auth0, local.env_extra_secrets))
   })
   commit_message      = "Managed by Terraform"
   commit_author       = "Terraform User"
@@ -92,12 +93,12 @@ resource "github_repository_file" "workflow_deploy_staging" {
   branch     = "main"
   file       = ".github/workflows/deploy-pr.yaml"
   content = templatefile("${path.module}/files/deploy-pr.yaml.tftpl", {
-    wrangler_version   = "3.63.1"
-    app_url            = var.app_url
-    enable_d1_database = var.enable_d1_database
-    enable_auth0       = var.enable_auth0
-    extra_secrets      = var.extra_secrets
-    variables_names    = join(",", concat(local.env_vars_d1, local.env_vars_auth0, local.env_extra_secrets))
+    wrangler_version    = local.wrangler_version
+    app_url             = var.app_url
+    enable_d1_database  = var.enable_d1_database
+    enable_auth0        = var.enable_auth0
+    extra_secrets_names = local.env_extra_secrets
+    variables_names     = join(",", concat(local.env_vars_d1, local.env_vars_auth0, local.env_extra_secrets))
   })
   commit_message      = "Managed by Terraform"
   commit_author       = "Terraform User"

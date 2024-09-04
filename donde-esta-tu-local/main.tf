@@ -63,7 +63,7 @@ provider "cloudflare" {
 }
 
 variable "auth0_api_token_staging" {
-  type = string
+  type        = string
   description = "API token for Auth0 staging"
 }
 
@@ -77,8 +77,8 @@ module "this" {
   source = "../000-module"
 
   name            = "donde-esta-tu-local"
-  app_url         = "https://app.montemayordepililla.cc"
-  staging_app_url = "https://donde-esta-tu-local.callepuzzle-rkjp.workers.dev"
+  app_url         = "https://peñas.montemayordepililla.cc"
+  staging_app_url = "https://staging-peñas.montemayordepililla.cc"
   description     = "Aplicación para saber donde están las peñas de tu pueblo"
   has_projects    = true
 

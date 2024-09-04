@@ -15,8 +15,8 @@ env:
 %{ if enable_d1_database ~}
   DATABASE_URL: file:./dev.db
 %{ endif ~}
-%{ if length(extra_secrets) > 0 ~}
-%{for secret_name, secret_value in extra_secrets ~}
+%{ if length(extra_secrets_names) > 0 ~}
+%{for secret_name in extra_secrets_names ~}
   ${secret_name}: $${{ secrets.${secret_name} }}
 %{ endfor ~}
 %{ endif ~}
@@ -40,12 +40,20 @@ jobs:
       - run: yarn install --pure-lockfile
 
 %{ if enable_d1_database ~}
+      - name: Data for tests
+        run: npx wrangler d1 migrations apply donde-esta-tu-local --local && npx prisma db seed
+%{ endif ~}
+
+      - name: Tests
+        run: yarn test:unit
+
+%{ if enable_d1_database ~}
       - name: D1 Migrations Apply
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: $${{ secrets.CLOUDFLARE_API_TOKEN_STAGING }}
           wranglerVersion: ${wrangler_version}
-          command: d1 migrations apply donde-esta-tu-local --remote
+          command: d1 migrations apply donde-esta-tu-local --remote --env staging
 %{ endif ~}
 
       - name: Deploy
@@ -53,3 +61,4 @@ jobs:
         with:
           apiToken: $${{ secrets.CLOUDFLARE_API_TOKEN_STAGING }}
           wranglerVersion: ${wrangler_version}
+          command: deploy --env staging
