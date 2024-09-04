@@ -2,19 +2,17 @@ terraform {
   required_providers {
     github = {
       source  = "integrations/github"
-      version = "6.2.2"
+      version = "6.2.3"
     }
     cloudflare = {
-      source  = "cloudflare/cloudflare"
-      version = "4.35.0"
-    }
-    mongodbatlas = {
-      source  = "mongodb/mongodbatlas"
-      version = "1.17.4"
+      source                = "cloudflare/cloudflare"
+      version               = "4.40.0"
+      configuration_aliases = [cloudflare.staging]
     }
     auth0 = {
-      source  = "auth0/auth0"
-      version = "1.4.0"
+      source                = "auth0/auth0"
+      version               = "1.4.0"
+      configuration_aliases = [auth0.staging]
     }
   }
 }

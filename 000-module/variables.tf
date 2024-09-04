@@ -9,6 +9,12 @@ variable "app_url" {
   default     = null
 }
 
+variable "staging_app_url" {
+  description = "The URL of the application"
+  type        = string
+  default     = null
+}
+
 variable "description" {
   description = "The description of the repository"
   type        = string
@@ -101,8 +107,13 @@ variable "is_svelte_app" {
 variable "extra_secrets" {
   description = ""
   type        = map(string)
-  //sensitive = true TODO
-  default = {}
+  default     = {}
+}
+
+variable "enable_staging_environment" {
+  description = "Whether to enable the staging environment"
+  type        = bool
+  default     = false
 }
 
 /*
@@ -110,6 +121,12 @@ variable "extra_secrets" {
  */
 variable "cloudflare_account_id" {
   description = "The Cloudflare Account ID"
+  type        = string
+  default     = null
+}
+
+variable "staging_cloudflare_account_id" {
+  description = "The Cloudflare Account ID for the staging environment"
   type        = string
   default     = null
 }
@@ -142,4 +159,16 @@ variable "enable_auth0" {
   description = "Whether to enable the Auth0 module"
   type        = bool
   default     = false
+}
+
+variable "auth0_domain" {
+  description = "The Auth0 domain"
+  type        = string
+  default     = null
+}
+
+variable "staging_auth0_domain" {
+  description = "The Auth0 domain for the staging environment"
+  type        = string
+  default     = null
 }

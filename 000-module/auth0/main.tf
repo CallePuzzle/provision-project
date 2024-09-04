@@ -6,8 +6,6 @@ locals {
 }
 
 resource "auth0_client" "this" {
-  count = var.enable_auth0 ? 1 : 0
-
   name                = var.name
   description         = "Auth0 client for ${var.name}"
   app_type            = "regular_web"
@@ -23,8 +21,6 @@ resource "auth0_client" "this" {
 }
 
 resource "auth0_client_credentials" "this" {
-  count = var.enable_auth0 ? 1 : 0
-
-  client_id             = auth0_client.this[0].client_id
+  client_id             = auth0_client.this.client_id
   authentication_method = "client_secret_basic"
 }

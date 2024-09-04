@@ -1,0 +1,64 @@
+name: Deploy PR
+
+on:
+  pull_request:
+    branches:
+      - main
+
+env:
+%{ if enable_auth0 ~}
+  AUTH0_DOMAIN: $${{ secrets.AUTH0_DOMAIN_STAGING }}
+  AUTH0_CLIENT_ID: $${{ secrets.AUTH0_CLIENT_ID_STAGING }}
+  AUTH0_CLIENT_SECRET: $${{ secrets.AUTH0_CLIENT_SECRET_STAGING }}
+  AUTH0_REDIRECT_URI: ${app_url}/login/callback
+%{ endif ~}
+%{ if enable_d1_database ~}
+  DATABASE_URL: file:./dev.db
+%{ endif ~}
+%{ if length(extra_secrets_names) > 0 ~}
+%{for secret_name in extra_secrets_names ~}
+  ${secret_name}: $${{ secrets.${secret_name} }}
+%{ endfor ~}
+%{ endif ~}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    name: Deploy
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create .env file
+        uses: CallePuzzle/envvar-to-dotenv-action@v1.2.1
+        with:
+          variableNames: ${variables_names}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - run: yarn install --pure-lockfile
+
+%{ if enable_d1_database ~}
+      - name: Data for tests
+        run: npx wrangler d1 migrations apply donde-esta-tu-local --local && npx prisma db seed
+%{ endif ~}
+
+      - name: Tests
+        run: yarn test:unit
+
+%{ if enable_d1_database ~}
+      - name: D1 Migrations Apply
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: $${{ secrets.CLOUDFLARE_API_TOKEN_STAGING }}
+          wranglerVersion: ${wrangler_version}
+          command: d1 migrations apply donde-esta-tu-local --remote --env staging
+%{ endif ~}
+
+      - name: Deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: $${{ secrets.CLOUDFLARE_API_TOKEN_STAGING }}
+          wranglerVersion: ${wrangler_version}
+          command: deploy --env staging

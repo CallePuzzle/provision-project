@@ -19,3 +19,12 @@ Todos tienen un plan gratuito que se puede utilizar para este proyecto.
 
 - `GITHUB_TOKEN`: Se crea desde la [configuración de GitHub](https://github.com/settings/tokens)
 
+## No ver cambios en el terraform.tfvars
+
+En el terraform.tfvars van los tokens de auth0 que se renuevan cada 24 horas, por lo que no se deben ver cambios en el repositorio. Para evitar esto, se puede hacer lo siguiente:
+
+```bash
+git update-index --assume-unchanged donde-esta-tu-local/terraform.tfvars
+```
+
+https://stackoverflow.com/questions/23673174/how-to-ignore-new-changes-to-a-tracked-file-with-git
