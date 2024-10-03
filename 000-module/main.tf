@@ -91,3 +91,11 @@ module "deploy_staging" {
     github = github
   }
 }
+
+locals {
+  env = {
+    AUTH0_DOMAIN = var.enable_staging_environment ? var.staging_auth0_domain : var.auth0_domain
+    AUTH0_CLIENT_ID = var.enable_staging_environment ? module.auth0_staging[0].auth0_client_id : module.auth0[0].auth0_client_id
+    AUTH0_CLIENT_SECRET = var.enable_staging_environment ? module.auth0_staging[0].auth0_client_secret : module.auth0[0].auth0_client_secret
+  }
+}

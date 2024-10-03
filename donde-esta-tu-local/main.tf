@@ -104,3 +104,13 @@ module "this" {
     github             = github
   }
 }
+
+output "env" {
+  value = module.this.env
+  sensitive = true
+}
+
+output "extra_secrets" {
+  value = module.this.extra_secrets
+  sensitive = true
+}
