@@ -80,6 +80,12 @@ variable "auth0_client_secret" {
   default     = null
 }
 
+variable "auth0_app_url" {
+  description = "The URL of the Auth0 application"
+  type        = string
+  default     = null
+}
+
 variable "extra_secrets" {
   description = ""
   type        = map(string)

@@ -88,8 +88,9 @@ module "this" {
   cloudflare_account_id         = "173bf7921f79923475ce95a48b845583"
   staging_cloudflare_account_id = "173bf7921f79923475ce95a48b845583"
   auth0_domain                  = "https://${data.sops_file.credentials.data["AUTH0_DOMAIN"]}"
+  auth0_app_url                 = "https://xn--peas-hqa.montemayordepililla.cc"
   staging_auth0_domain          = "https://${data.sops_file.credentials.data["AUTH0_DOMAIN_STAGING"]}"
-
+  auth0_app_url_staging         = "https://xn--staging-peas-jhb.montemayordepililla.cc"
 
   extra_secrets = {
     JWK = data.sops_file.extra_secrets.data["JWK"]

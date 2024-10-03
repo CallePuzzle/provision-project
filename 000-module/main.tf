@@ -14,7 +14,7 @@ module "auth0" {
   count = var.enable_auth0 ? 1 : 0
 
   name    = var.name
-  app_url = var.app_url
+  app_url = var.auth0_app_url != null ? var.auth0_app_url : var.app_url
 }
 
 module "cloudflare_staging" {
@@ -36,7 +36,7 @@ module "auth0_staging" {
   count  = var.enable_staging_environment && var.enable_auth0 ? 1 : 0
 
   name    = "${var.name}-staging"
-  app_url = var.staging_app_url
+  app_url = var.auth0_app_url_staging != null ? var.auth0_app_url_staging : var.staging_app_url
 
   providers = {
     auth0 = auth0.staging
@@ -60,6 +60,7 @@ module "deploy" {
   auth0_domain                       = var.auth0_domain
   auth0_client_id                    = module.auth0[0].auth0_client_id
   auth0_client_secret                = module.auth0[0].auth0_client_secret
+  auth0_app_url                      = var.auth0_app_url
   extra_secrets                      = var.extra_secrets
 
   providers = {
@@ -83,6 +84,7 @@ module "deploy_staging" {
   auth0_domain                       = var.staging_auth0_domain
   auth0_client_id                    = module.auth0_staging[0].auth0_client_id
   auth0_client_secret                = module.auth0_staging[0].auth0_client_secret
+  auth0_app_url                      = var.auth0_app_url_staging
   extra_secrets                      = var.extra_secrets
 
   providers = {

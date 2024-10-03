@@ -72,10 +72,12 @@ resource "github_repository_file" "workflow_deploy" {
   branch     = "main"
   file       = ".github/workflows/deploy-main.yaml"
   content = templatefile("${path.module}/files/deploy-main.yaml.tftpl", {
+    name                = var.repository
     wrangler_version    = local.wrangler_version
     app_url             = var.app_url
     enable_d1_database  = var.enable_d1_database
     enable_auth0        = var.enable_auth0
+    auth0_app_url       = var.auth0_app_url != null ? var.auth0_app_url : var.app_url
     extra_secrets_names = local.env_extra_secrets
     variables_names     = join(",", concat(local.env_vars_d1, local.env_vars_auth0, local.env_extra_secrets))
   })
@@ -93,10 +95,12 @@ resource "github_repository_file" "workflow_deploy_staging" {
   branch     = "main"
   file       = ".github/workflows/deploy-pr.yaml"
   content = templatefile("${path.module}/files/deploy-pr.yaml.tftpl", {
+    name                = var.repository
     wrangler_version    = local.wrangler_version
     app_url             = var.app_url
     enable_d1_database  = var.enable_d1_database
     enable_auth0        = var.enable_auth0
+    auth0_app_url       = var.auth0_app_url != null ? var.auth0_app_url : var.app_url
     extra_secrets_names = local.env_extra_secrets
     variables_names     = join(",", concat(local.env_vars_d1, local.env_vars_auth0, local.env_extra_secrets))
   })

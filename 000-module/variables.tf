@@ -167,8 +167,20 @@ variable "auth0_domain" {
   default     = null
 }
 
+variable "auth0_app_url" {
+  description = "The URL of the Auth0 application"
+  type        = string
+  default     = null
+}
+
 variable "staging_auth0_domain" {
   description = "The Auth0 domain for the staging environment"
+  type        = string
+  default     = null
+}
+
+variable "auth0_app_url_staging" {
+  description = "The URL of the Auth0 application for the staging environment"
   type        = string
   default     = null
 }

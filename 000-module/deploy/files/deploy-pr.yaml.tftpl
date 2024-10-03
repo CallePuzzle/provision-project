@@ -6,11 +6,12 @@ on:
       - main
 
 env:
+  APP_URL: ${app_url}
 %{ if enable_auth0 ~}
   AUTH0_DOMAIN: $${{ secrets.AUTH0_DOMAIN_STAGING }}
   AUTH0_CLIENT_ID: $${{ secrets.AUTH0_CLIENT_ID_STAGING }}
   AUTH0_CLIENT_SECRET: $${{ secrets.AUTH0_CLIENT_SECRET_STAGING }}
-  AUTH0_REDIRECT_URI: ${app_url}/login/callback
+  AUTH0_REDIRECT_URI: ${auth0_app_url}/login/callback
 %{ endif ~}
 %{ if enable_d1_database ~}
   DATABASE_URL: file:./dev.db
@@ -41,7 +42,7 @@ jobs:
 
 %{ if enable_d1_database ~}
       - name: Data for tests
-        run: npx wrangler d1 migrations apply donde-esta-tu-local --local && npx prisma db seed
+        run: npx wrangler d1 migrations apply ${name} --local && npx prisma db seed
 %{ endif ~}
 
       - name: Tests
@@ -53,7 +54,7 @@ jobs:
         with:
           apiToken: $${{ secrets.CLOUDFLARE_API_TOKEN_STAGING }}
           wranglerVersion: ${wrangler_version}
-          command: d1 migrations apply donde-esta-tu-local --remote --env staging
+          command: d1 migrations apply ${name}-staging --remote --env staging
 %{ endif ~}
 
       - name: Deploy

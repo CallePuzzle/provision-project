@@ -6,11 +6,12 @@ on:
       - main
 
 env:
+  APP_URL: ${app_url}
 %{ if enable_auth0 ~}
   AUTH0_DOMAIN: $${{ secrets.AUTH0_DOMAIN }}
   AUTH0_CLIENT_ID: $${{ secrets.AUTH0_CLIENT_ID }}
   AUTH0_CLIENT_SECRET: $${{ secrets.AUTH0_CLIENT_SECRET }}
-  AUTH0_REDIRECT_URI: ${app_url}/login/callback
+  AUTH0_REDIRECT_URI: ${auth0_app_url}/login/callback
 %{ endif ~}
 %{ if enable_d1_database ~}
   DATABASE_URL: file:./dev.db
@@ -45,7 +46,7 @@ jobs:
         with:
           apiToken: $${{ secrets.CLOUDFLARE_API_TOKEN }}
           wranglerVersion: ${wrangler_version}
-          command: d1 migrations apply donde-esta-tu-local --remote
+          command: d1 migrations apply ${name} --remote
 %{ endif ~}
 
       - name: Deploy
