@@ -63,7 +63,7 @@ module "this" {
 
   name         = "y-tu-que-compras"
   app_url      = "https://compras.callepuzzle.com"
-  description  = "Aplicación para gestionar tus compras en el mercado"
+  description  = "Aplicación para gestionar tus compras en el super y en el mercado"
   has_projects = true
 
   enable_d1_database    = true
